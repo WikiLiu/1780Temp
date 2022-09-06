@@ -1,0 +1,42 @@
+<html> 
+<head> 
+<title>位置固定(</title> 
+<script src="js/echarts.min.js"></script>
+ 
+<style type="text/css"> 
+.fixed_div{ 
+position:fixed; 
+left:20px; 
+top:20px; 
+width:400px; 
+}
+</style> 
+<script type="text/javascript">
+$(function(){
+  var navH = $(".nav").offset().top;
+  $(window).scroll(function(){
+  var scroH = $(this).scrollTop();
+  if(scroH>=navH){
+    $(".nav").css({"position":"fixed","top":0});
+  }else if(scroH<navH){
+   $(".nav").css({"position":"static"});
+  }
+ })
+})
+</script>
+</head> 
+<body>
+<div class="nav"></div>
+ 
+<div class="fixed_div" >content, I'm content</div> 
+<div>
+<br/> 11sssss
+<br/> 11sssss
+<br/> 11sssss<br/> 11sssss
+<br/> 11sssss
+<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss
+<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss<br/> 11sssss
+</div>
+ 
+</body> 
+</html>

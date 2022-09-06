@@ -1,0 +1,2 @@
+B:\新建文件夹\Debug\readdat.exe
+B:\readdat\Debug\readdat.exe

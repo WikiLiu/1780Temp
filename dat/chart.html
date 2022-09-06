@@ -1,0 +1,1595 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <script src="js/jquery.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="data.js"></script>
+
+    <div id="mainChart" style="height: 4200px;width:1500px;"></div>
+    <script type="text/javascript">
+        var pretemp = [];
+        var pretemp0 = [];
+        var prespeed = [];
+        var thisseg1 = [];
+
+
+        for (i = 0; i < thisseg.length - 1; i++) {
+            thisseg1.push(thisseg[i + 1]);
+        }
+        thisseg1.push(thisseg[thisseg.length - 1]) //1111111
+
+        for (i = 0; i < numset1.length; i++) {
+            pretemp.push(numset1[i] - (epsTemp[i])); //delta
+        }
+        for (i = 0; i < numset10.length; i++) {
+            pretemp0.push(numset10[i] - (epsTemp0[i])); //delta
+        }
+
+
+        var deltatemp = [];
+        if (thisseg[0] != 0) {
+            for (i = 0; i < numset1.length; i++) {
+                deltatemp.push((numset1[i] - (thisseg1[i])).toFixed(4)); //delta
+            }
+        } else deltatemp = epsTemp;
+
+
+        
+        var deltatemp0 = [];
+        if (thisseg0[0] != 0) {
+            for (i = 0; i < numset10.length; i++) {
+                deltatemp0.push((numset10[i] - (thisseg10[i])).toFixed(4)); //delta
+            }
+        } else deltatemp0 = epsTemp0;
+
+
+
+        let count20 = 0;
+        let count17 = 0;
+        let count30 = 0;
+
+        for (let i = 0; i < deltatemp.length; i++) {
+            if (deltatemp[i] <= 17 && deltatemp[i] >= -17) { count17 = count17 + 1; }
+            if (deltatemp[i] <= 20 && deltatemp[i] >= -20) { count20 = count20 + 1; }
+            if (deltatemp[i] <= 30 && deltatemp[i] >= -30) { count30 = count30 + 1 }
+        }
+        const tempcount20 = (count20 / deltatemp.length * 100).toFixed(2);
+        const tempcount17 = (count17 / deltatemp.length * 100).toFixed(2);
+        const tempcount30 = (count30 / deltatemp.length * 100).toFixed(2);
+
+
+
+        for (i = 0; i < speed.length; i++) {
+            prespeed.push(speed[i] / 1.2);
+        }
+
+        targettemp = parseFloat(targetTemp)
+        targettempmax = parseFloat(targetTemp) + 30
+
+        var myChart = echarts.init(document.getElementById("mainChart"));
+
+        const dateList = nameset
+        const dateList0 = nameset0
+        const valueList = numset1.map(function (item) {
+            return item;
+        });
+        const valueList0 = numset10.map(function (item) {
+            return item;
+        });
+
+
+        // if (flag == 1) { targettemp = targettemp2; }
+        // else targettemp = targetTemp;
+
+
+        // const maxtemp = targettemp + 30;
+        // const mintemp = targettemp - 30;
+
+        const maxtemp = pretemp.map(x => x + 30);
+        const mintemp = pretemp.map(x => x - 30);
+
+        const maxtemp0 = pretemp0.map(x => x + 30);
+        const mintemp0 = pretemp0.map(x => x - 30);
+
+        const valueList1 = valueList.map(x => x * 2);
+        const valueList2 = valueList.map(x => x * 3);
+        const valueList3 = valueList.map(x => x * 3.5);
+        ///////////////////////////////////////////
+        let vmax = numset1[0];
+        for (let i = 0; i < numset1.length - 1; i++) {
+            vmax = vmax < numset1[i + 1] ? numset1[i + 1] : vmax
+        }
+
+        let vmin = numset1[0];
+        for (let i = 0; i < numset1.length - 1; i++) {
+            vmin = vmin > numset1[i + 1] ? numset1[i + 1] : vmin
+        }
+
+
+        let vmax0 = numset10[0];
+        for (let i = 0; i < numset10.length - 1; i++) {
+            vmax0 = vmax0 < numset10[i + 1] ? numset10[i + 1] : vmax0
+        }
+
+        let vmin0 = numset10[0];
+        for (let i = 0; i < numset10.length - 1; i++) {
+            vmin0 = vmin0 > numset10[i + 1] ? numset10[i + 1] : vmin0
+        }
+        const maxtemp10 = (vmax0 + 40).toFixed(0);
+        const mintemp10 = (vmin0 - 40).toFixed(0);
+
+
+        //alert(vmin + "\n" + vmax);
+
+
+        const maxtemp1 = (vmax + 40).toFixed(0);
+        const mintemp1 = (vmin - 40).toFixed(0);
+
+        let invmax = tempInDistribute[0];
+        for (let i = 0; i < tempInDistribute.length - 1; i++) {
+            invmax = invmax < numset1[i + 1] ? numset1[i + 1] : invmax
+        }
+
+        let invmin = tempInDistribute[0];
+        for (let i = 0; i < tempInDistribute.length - 1; i++) {
+            invmin = invmin > tempInDistribute[i + 1] ? tempInDistribute[i + 1] : invmin
+        }
+        const inmaxtemp1 = (invmax + 40).toFixed(0);
+        const inmintemp1 = (invmin - 40).toFixed(0);
+
+
+        let invmax0 = tempInDistribute0[0];
+        for (let i = 0; i < tempInDistribute0.length - 1; i++) {
+            invmax0 = invmax0 < numset10[i + 1] ? numset10[i + 1] : invmax0
+        }
+
+        let invmin0 = tempInDistribute0[0];
+        for (let i = 0; i < tempInDistribute0.length - 1; i++) {
+            invmin0 = invmin0 > tempInDistribute0[i + 1] ? tempInDistribute0[i + 1] : invmin0
+        }
+        const inmaxtemp10 = (invmax0 + 40).toFixed(0);
+        const inmintemp10 = (invmin0 - 40).toFixed(0);
+
+
+
+        let epsTempmax = Math.abs(epsTemp[0]);
+        for (let i = 0; i < epsTemp.length - 1; i++) {
+            epsTempmax = Math.abs(epsTempmax) < Math.abs(epsTemp[i + 1]) ? Math.abs(epsTemp[i + 1]) : epsTempmax
+        }
+        epsTempmax = epsTempmax.toFixed(0);
+
+        let epsTempmax0 = Math.abs(epsTemp0[0]);
+        for (let i = 0; i < epsTemp0.length - 1; i++) {
+            epsTempmax0 = Math.abs(epsTempmax0) < Math.abs(epsTemp0[i + 1]) ? Math.abs(epsTemp0[i + 1]) : epsTempmax0
+        }
+        epsTempmax0 = epsTempmax0.toFixed(0);
+
+
+
+        let fbkConTempmax = Math.abs(fbkConTemp[0]);
+        for (let i = 0; i < fbkConTemp.length - 1; i++) {
+            fbkConTempmax = Math.abs(fbkConTempmax) < Math.abs(fbkConTemp[i + 1]) ? Math.abs(fbkConTemp[i + 1]) : fbkConTempmax
+        }
+        fbkConTempmax = fbkConTempmax.toFixed(0);
+
+        let fbkConTempmax0 = Math.abs(fbkConTemp0[0]);
+        for (let i = 0; i < fbkConTemp0.length - 1; i++) {
+            fbkConTempmax0 = Math.abs(fbkConTempmax0) < Math.abs(fbkConTemp0[i + 1]) ? Math.abs(fbkConTemp0[i + 1]) : fbkConTempmax0
+        }
+        fbkConTempmax0 = fbkConTempmax0.toFixed(0);
+
+
+
+
+
+        var fbValveOpen = [];
+        for (let i = 0; i < BotValveOpen.length; i++) {
+            fbValveOpen.push(TopValveOpen[i] + BotValveOpen[i]);
+        }
+
+        var fbValveOpen0 = [];
+        for (let i = 0; i < BotValveOpen0.length; i++) {
+            fbValveOpen0.push(TopValveOpen0[i] + BotValveOpen0[i]);
+        }
+
+
+
+
+
+
+        //alert(mintemp + "\n" + maxtemp);
+        //////////////////////////////////////////////////////
+        const titleNameY = ['层冷温度：'+stripNo, '遗传因子', '主冷阀门：'+stripNo, '反馈阀门', '速度：'+stripNo, '入口温度：'+stripNo, '温度差值', '控制输出：'+stripNo, 'NEW_PID：'+stripNo, 'OLD_PID'];
+        const titleNameY0 = ['层冷温度：'+stripNo0, '遗传因子', '主冷阀门：'+stripNo0, '反馈阀门', '速度：'+stripNo0, '入口温度：'+stripNo0, '温度差值', '控制输出：'+stripNo0, 'NEW_PID：'+stripNo0, 'OLD_PID'];
+        const titleName = ['CTCTemp', 'inheritCoeff', 'mainValveOpen', 'fbValveOpen', 'Speed', 'tempInDistribute', 'Deltatemp', 'fbkContemp', 'New_pid', 'Old_pid'];
+        const titleName0 = ['CTCTemp', 'inheritCoeff', 'mainValveOpen', 'fbValveOpen', 'Speed', 'tempInDistribute', 'Deltatemp', 'fbkContemp', 'New_pid', 'Old_pid'];
+        const colors = ['#FF0000', '#FFBF00', '#4B0082', '#91C000', '#5470C6', '#FF0087', '#37A2FF', '#37A2FF', '#5FBF00', '#EE6000', '#FF3366', '#80FFA5', '#00DDFF', '#37A2FF', '#8a2be2'];
+        const colors0 = ['#FF0000', '#FFBF00', '#4B0082', '#91C000', '#5470C6', '#FF0087', '#37A2FF', '#37A2FF', '#5FBF00', '#EE6000', '#FF3366', '#80FFA5', '#00DDFF', '#37A2FF', '#8a2be2'];
+        option = {
+            grid: {
+                left: '155px',
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    xAxisIndex: [0, 1],
+                    filterMode: 'none',
+                    
+                },
+                {
+                    type: 'inside',
+                    xAxisIndex: [0, 1],
+                    filterMode: 'none'
+                },
+                {
+                    type: 'slider',
+                    xAxisIndex: [9, 10],
+                    filterMode: 'none',
+                    
+                },
+                {
+                    type: 'inside',
+                    xAxisIndex: [9, 10],
+                    filterMode: 'none'
+                },
+
+
+                {
+                    type: 'slider',
+                    xAxisIndex: [2,3],
+                    filterMode: 'none',
+                    
+                },
+                {
+                    type: 'inside',
+                    xAxisIndex: [2,3],
+                    filterMode: 'none'
+                },
+
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 0,
+                    filterMode: 'none',
+                    right: "15%",
+                    // fillerColor:colors[0],
+                    // height : 200,//下滑块手柄的高度调节
+                    startValue: mintemp1,                           //数据窗口范围的起始数值
+                    endValue: maxtemp1,                            //数据窗口范围的结束数值。
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 0,
+                    filterMode: 'none',
+                    // fillerColor:colors[1],
+                    startValue: mintemp1,                           //数据窗口范围的起始数值
+                    endValue: maxtemp1,                            //数据窗口范围的结束数值。
+
+                },
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 9,
+                    filterMode: 'none',
+                    right: "15%",
+                    // fillerColor:colors[0],
+                    // height : 200,//下滑块手柄的高度调节
+                    startValue: mintemp10,                           //数据窗口范围的起始数值
+                    endValue: maxtemp10,                            //数据窗口范围的结束数值。
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 9,
+                    filterMode: 'none',
+                    // fillerColor:colors[1],
+                    startValue: mintemp10,                           //数据窗口范围的起始数值
+                    endValue: maxtemp10,                            //数据窗口范围的结束数值。
+
+                },
+
+
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 1,
+                    filterMode: 'none',
+                    right: "10%"
+
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 1,
+                    filterMode: 'none',
+                },
+                {
+                    type: 'slider',
+                    yAxisIndex: 10,
+                    filterMode: 'none',
+                    right: "10%"
+
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 10,
+                    filterMode: 'none',
+                },
+
+
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 2,
+                    filterMode: 'none',
+                    right: "15%"
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 2,
+                    filterMode: 'none'
+                    
+                },
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 11,
+                    filterMode: 'none',
+                    right: "15%"
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 11,
+                    filterMode: 'none'
+                    
+                },
+
+                
+
+
+
+                {
+                    type: 'slider',
+                    yAxisIndex: 3,
+                    filterMode: 'none',
+                    right: "10%"
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 3,
+                    filterMode: 'none'
+                    
+                },
+                {
+                    type: 'slider',
+                    yAxisIndex: 12,
+                    filterMode: 'none',
+                    right: "10%"
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 12,
+                    filterMode: 'none'
+                    
+                },
+
+
+             
+                // {
+                //     type: 'slider',
+                //     yAxisIndex: 6,
+                //     filterMode: 'none',
+                //     right: "15%",
+                   
+                    
+                // },
+                {
+                    type: 'inside',
+                    yAxisIndex: 6,
+                    filterMode: 'none',
+                  
+                    
+                },
+                // {
+                //     type: 'slider',
+                //     yAxisIndex: 7,
+                //     filterMode: 'none',
+                //     right: "10%",
+                // },
+                {
+                    type: 'inside',
+                    yAxisIndex: 7,
+                    filterMode: 'none',
+                    
+                },
+                {
+                    type: 'inside',
+                    yAxisIndex: 15,
+                    filterMode: 'none',
+                  
+                    
+                },
+                // {
+                //     type: 'slider',
+                //     yAxisIndex: 7,
+                //     filterMode: 'none',
+                //     right: "10%",
+                // },
+                {
+                    type: 'inside',
+                    yAxisIndex: 16,
+                    filterMode: 'none',
+                    
+                },
+
+
+
+            ],
+
+            legend: {
+                type: 'scroll', // ：可滚动翻页的图例。当图例数量较多时可以使用。
+                data: titleName
+            },
+            legend: {
+                type: 'scroll', // ：可滚动翻页的图例。当图例数量较多时可以使用。
+                data: titleName0
+            },
+           
+           
+
+            title: {text: stripNo+"\n"+stripNo0},
+
+            tooltip: {
+                trigger: 'axis',
+
+                axisPointer: {
+                    type: 'cross'
+                },
+                position: function (point, params, dom, rect, size) {
+
+                    var x = 0;
+
+                    var pointx = point[0];
+                    var pointy = point[1];
+
+                    // 外层div大小
+
+                    var viewWidth = size.viewSize[0];
+                    var viewHeight = size.viewSize[1];
+
+                    // 提示框大小
+                    var boxWidth = size.contentSize[0];
+                    var boxHeight = size.contentSize[1];
+
+                    // boxWidth > pointX 说明鼠标左边放不下提示框
+                    if (pointx + boxWidth + 400 > viewWidth) {
+                        x = pointx + 150;
+                    } else { // 左边放的下
+                        x = pointx + 400;
+                    }
+
+                    return [x, pointy - 50];
+
+                },
+
+                formatter: function (params) {
+                    // console.log(params) //查看数据
+                    let res = '';
+                    for (let i = 0; i < params.length; i++) {
+                        // console.log(params[i].name, params[i].seriesName, params[i].value)
+                        var data = '<p>' + params[i].name + '</p>';
+                        res += '<p class="padding:15px 0;">' + params[i].marker + params[i].seriesName + '<span style="font-weight:900;float:right;padding-left:15px;">' + params[i].value + '</span>' + '</p>';
+
+                    }
+                    return data + res;
+                }
+
+            },
+            axisPointer: { // 同时出现提示竖线
+                link: { xAxisIndex: 'all' }
+            },
+            xAxis: [{
+                data: dateList,
+
+                // name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                }, gridIndex: 0
+            }, {
+                data: dateList,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                }, gridIndex: 1
+            },
+            {
+                data: dateList,
+                // name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[2]
+                    }
+                },
+                gridIndex: 2
+            }, {
+                data: dateList,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[3]
+                    }
+                },
+                gridIndex: 3
+            }, {
+                data: dateList,
+                name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[4]
+                    }
+                },
+                gridIndex: 4
+            }, {
+                data: dateList,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[5]
+                    }
+                },
+                gridIndex: 5
+            }, {
+                data: dateList,
+                // name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[6]
+                    }
+                },
+                gridIndex: 6
+            },
+
+            {
+                data: dateList,
+                name: '          段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[8]
+                    }
+                },
+                gridIndex: 7
+            },
+            {
+                data: small,
+                name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors[9]
+                    }
+                },
+                gridIndex: 8
+            },
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            {
+                data: dateList0,
+
+                // name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[0]
+                    }
+                }, gridIndex: 9
+            },
+             {
+                data: dateList0,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[1]
+                    }
+                }, gridIndex: 10
+            },
+            {
+                data: dateList0,
+                // name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[2]
+                    }
+                },
+                gridIndex: 11
+            },
+             {
+                data: dateList0,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[3]
+                    }
+                },
+                gridIndex: 12
+            }, 
+            {
+                data: dateList0,
+                name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[4]
+                    }
+                },
+                gridIndex: 13
+            }, 
+            {
+                data: dateList0,
+                name: '\n\n\n段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[5]
+                    }
+                },
+                gridIndex: 14
+            },
+             {
+                data: dateList0,
+                // name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[6]
+                    }
+                },
+                gridIndex: 15
+            },
+
+            {
+                data: dateList0,
+                name: '          段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[8]
+                    }
+                },
+                gridIndex: 16
+            },
+            {
+                data: small0,
+                name: '段号',
+                axisLine: {
+                    show: true,
+                    // symbol: ['none', 'arrow'], // 显示箭头的位置 ,
+                    // symbolOffset: [5, 12], // 箭头位置的偏移量
+                    lineStyle: {
+                        color: colors0[9]
+                    }
+                },
+                gridIndex: 17
+            },
+            ],
+
+
+
+            yAxis: [
+                {
+                    name: titleNameY[0],
+                    // min: mintemp1,
+                    // max: 900,
+                    
+                    splitLine: { show: false },
+                    axisLine: {
+                        show: true,
+                        symbol: ['none'],
+                        lineStyle: {
+                            color: colors[0]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    }, gridIndex: 0
+                },
+
+                {
+
+                    name: titleNameY[1],
+                    max: 5,
+                    min: 0,
+                    type: 'value',
+                    position: 'right',
+
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[1]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '       {value}'
+                    },
+                    gridIndex: 1
+                }, {
+                    name: titleNameY[2],
+                    position: 'left',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[2]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} 个',
+
+                    },
+                    splitLine: { show: false },
+                    gridIndex: 2
+                }, {
+                    name: titleNameY[3],
+                    position: 'right',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[3]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} 个',
+
+                    },
+                    splitLine: { show: false },
+                    gridIndex: 3
+                }, {
+                    name: titleNameY[4],
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[4]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} m/s'
+                    },
+                    gridIndex: 4
+                }, {
+                    name: titleNameY[5],
+                    min: inmintemp1,
+                    max: inmaxtemp1,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[5]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    },
+                    gridIndex: 5
+                },
+
+                {
+
+                    name: titleNameY[6],
+
+                    type: 'value',
+                    position: 'right',
+                    min: -epsTempmax,
+                    max: epsTempmax,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[6]
+                        }
+                    },
+                    splitLine: { show: false },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    },
+                    gridIndex: 6
+                },
+
+                {
+                    name: titleNameY[7],
+                    min: -fbkConTempmax,
+                    max: fbkConTempmax,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors[8]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} '
+                    },
+                    gridIndex: 7
+                },
+                {
+                    name: titleNameY[8],
+                    axisLine: {
+                        show: true,
+                        // symbol: ['none'],
+                        lineStyle: {
+                            color: colors[9]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value}'
+                    }, gridIndex: 8
+                },
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                {
+                    name: titleNameY0[0],
+                    min: mintemp10,
+                    max: maxtemp10,
+                    
+                    splitLine: { show: false },
+                    axisLine: {
+                        show: true,
+                        symbol: ['none'],
+                        lineStyle: {
+                            color: colors0[0]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    }, gridIndex: 9
+                },
+
+                {
+
+                    name: titleNameY0[1],
+                    max: 5,
+                    min: 0,
+                    type: 'value',
+                    position: 'right',
+
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[1]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '       {value}'
+                    },
+                    gridIndex: 10
+                },
+                 {
+                    name: titleNameY0[2],
+                    position: 'left',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[2]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} 个',
+
+                    },
+                    splitLine: { show: false },
+                    gridIndex: 11
+                }, 
+                {
+                    name: titleNameY0[3],
+                    position: 'right',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[3]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} 个',
+
+                    },
+                    splitLine: { show: false },
+                    gridIndex: 12
+                },
+                 {
+                    name: titleNameY0[4],
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[4]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} m/s'
+                    },
+                    gridIndex: 13
+                }, 
+                {
+                    name: titleNameY0[5],
+                    min: inmintemp10,
+                    max: inmaxtemp10,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[5]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    },
+                    gridIndex: 14
+                },
+
+                {
+
+                    name: titleNameY0[6],
+
+                    type: 'value',
+                    position: 'right',
+                    min: -epsTempmax0,
+                    max: epsTempmax0,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[6]
+                        }
+                    },
+                    splitLine: { show: false },
+                    axisLabel: {
+                        formatter: '{value} ℃'
+                    },
+                    gridIndex: 15
+                },
+
+                {
+                    name: titleNameY0[7],
+                    min: -fbkConTempmax0,
+                    max: fbkConTempmax0,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: colors0[8]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} '
+                    },
+                    gridIndex: 16
+                },
+                {
+                    name: titleNameY0[8],
+                    axisLine: {
+                        show: true,
+                        // symbol: ['none'],
+                        lineStyle: {
+                            color: colors0[9]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value}'
+                    }, gridIndex: 17
+                },
+
+            ],
+
+            grid: [
+                { // 调整每个图表的位置
+                top: '3%',
+                bottom: '91%',
+                left: '15%',
+                right: '25%'
+            }, 
+            {
+                top: '3%',
+                bottom: '91%', left: '15%',
+                right: '25%'
+            }, {
+                top: '18%',
+                bottom: '76%', left: '15%',
+                right: '25%'
+            }, {
+                top: '18%',
+                bottom: '76%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '33%',
+                bottom: '61%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '48%',
+                bottom: '46%', left: '15%',
+                right: '25%'
+            }, {
+                top: '63%',
+                bottom: '31%', left: '15%',
+                right: '25%'
+            },
+
+            {
+                top: '63%',
+                bottom: '31%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '78%',
+                bottom: '16%', left: '15%',
+                right: '25%'
+            },
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            { // 调整每个图表的位置
+                top: '10.5%',
+                bottom: '83.5%',
+                left: '15%',
+                right: '25%'
+            }, 
+            {
+                top: '10.5%',
+                bottom: '83.5%',
+                left: '15%',
+                right: '25%'
+            },
+             {
+                top: '25.5%',
+                bottom: '68.5%', left: '15%',
+                right: '25%'
+            }, 
+            {
+                top: '25.5%',
+                bottom: '68.5%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '40.5%',
+                bottom: '53.5%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '55.5%',
+                bottom: '38.5%', left: '15%',
+                right: '25%'
+            }, 
+            {
+                top: '70.6%',
+                bottom: '23.5%', left: '15%',
+                right: '25%'
+            },
+
+            {
+                top: '70.5%',
+                bottom: '23.5%', left: '15%',
+                right: '25%'
+            },
+            {
+                top: '85.5%',
+                bottom: '8.5%', left: '15%',
+                right: '25%'
+            }
+            ],
+            series: [
+                {
+                    name: titleName[0],
+                    type: 'line',
+                    //   areaStyle: {},
+                    itemStyle: {
+                        color: colors[0]
+                    },
+                    lineStyle: {
+                        color: colors[0],
+                        width: 1.5
+                    },
+                    showSymbol: false,
+                    data: valueList,
+
+                },
+                {
+                    name: 'Targettemp',
+                    type: 'line',
+                    showSymbol: false,
+                    data: pretemp,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors[0]
+                    },
+                    lineStyle: {
+                        color: colors[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 0,
+                    yAxisIndex: 0
+                },//////////////////////////////////////////////
+                {
+                    name: 'Target+',
+                    type: 'line',
+                    showSymbol: false,
+                    data: maxtemp,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors[0]
+                    },
+                    lineStyle: {
+                        color: colors[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 0,
+                    yAxisIndex: 0
+                },/////////////////////////////////////////////
+                {
+                    name: 'Target-',
+                    type: 'line',
+                    showSymbol: false,
+                    data: mintemp,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors[0]
+                    },
+                    lineStyle: {
+                        color: colors[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 0,
+                    yAxisIndex: 0
+                },////////////////////////////////////////////////////////////////////
+                {
+                    name: titleName[1],
+                    type: 'line',
+                    showSymbol: false,
+                    data: inheritCoeff,
+                    itemStyle: {
+                        color: colors[1]
+                    },
+                    lineStyle: {
+                        color: colors[1],
+                        width: 1.5
+                    },
+                    xAxisIndex: 1,
+                    yAxisIndex: 1
+                },
+                {
+                    name: titleName[2],
+                    type: 'line',
+                    showSymbol: false,
+                    data: lastoutValves,
+                    itemStyle: {
+                        color: colors[2]
+                    },
+                    lineStyle: {
+                        color: colors[2],
+                        width: 1.5
+                    },
+                    xAxisIndex: 2,
+                    yAxisIndex: 2
+                }, {
+                    name: titleName[3],
+                    type: 'line',
+                    showSymbol: false,
+                    data: fbValveOpen,
+                    itemStyle: {
+                        color: colors[3]
+                    },
+                    lineStyle: {
+                        color: colors[3],
+                        width: 1.5
+                    },
+                    xAxisIndex: 3,
+                    yAxisIndex: 3
+                }, {
+                    name: titleName[4],
+                    type: 'line',
+                    showSymbol: false,
+                    data: speed,
+                    itemStyle: {
+                        color: colors[4]
+                    },
+                    lineStyle: {
+                        color: colors[4],
+                        width: 1.5
+                    },
+                    xAxisIndex: 4,
+                    yAxisIndex: 4
+                }, {
+                    name: 'preSpeed',
+                    type: 'line',
+                    showSymbol: false,
+                    data: actSpeed,
+                    itemStyle: {
+                        color: colors[14]
+                    },
+                    lineStyle: {
+                        color: colors[14],
+                        width: 1.5,
+                        normal: {
+                            type: 'dot'
+                        }
+
+                    },
+                    xAxisIndex: 4,
+                    yAxisIndex: 4
+                },
+                {
+                    name: titleName[5],
+                    type: 'line',
+                    showSymbol: false,
+                    data: tempInDistribute,
+                    itemStyle: {
+                        color: colors[5]
+                    },
+                    lineStyle: {
+                        color: colors[5],
+                        width: 1.5
+                    },
+                    xAxisIndex: 5,
+                    yAxisIndex: 5
+                },
+                {
+                    name: titleName[6],
+                    type: 'line',
+                    showSymbol: false,
+                    data: deltatemp,
+                    itemStyle: {
+                        color: colors[6]
+                    },
+                    lineStyle: {
+                        color: colors[6],
+                        width: 1.5
+                    },
+                    xAxisIndex: 6,
+                    yAxisIndex: 6
+                },
+
+
+                {
+                    name: titleName[7],
+                    type: 'line',
+                    showSymbol: false,
+                    data: fbkConTemp,
+                    itemStyle: {
+                        color: colors[8]
+                    },
+                    lineStyle: {
+                        color: colors[8],
+                        width: 1.5
+                    },
+                    xAxisIndex: 7,
+                    yAxisIndex: 7
+                },
+                {
+                    name: titleName[8],
+                    type: 'line',
+                    showSymbol: false,
+                    data: New_pidCalTemp,
+                    itemStyle: {
+                        color: colors[9]
+                    },
+                    lineStyle: {
+                        color: colors[9],
+                        width: 1.5
+                    },
+                    xAxisIndex: 8,
+                    yAxisIndex: 8
+                },
+                {
+                    name: titleName[9],
+                    type: 'line',
+                    showSymbol: false,
+                    data: Old_pidCalTemp,
+                    itemStyle: {
+                        color: colors[10]
+                    },
+                    lineStyle: {
+                        color: colors[10],
+                        width: 1.5,
+                        normal: {
+                            type: 'dot'
+                        },
+                    },
+
+                    xAxisIndex: 8,
+                    yAxisIndex: 8
+                },
+
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                {
+                    name: titleName0[0],
+                    type: 'line',
+                    //   areaStyle: {},
+                    itemStyle: {
+                        color: colors0[0]
+                    },
+                    lineStyle: {
+                        color: colors0[0],
+                        width: 1.5
+                    },
+                    showSymbol: false,
+                    data: numset10,
+                    xAxisIndex: 9,
+                    yAxisIndex: 9
+                },
+
+
+                // {
+                //     name: titleName0[0],
+                //     type: 'line',
+                //     //   areaStyle: {},
+                //     itemStyle: {
+                //         color: colors0[0]
+                //     },
+                //     lineStyle: {
+                //         color: colors0[0],
+                //         width: 1.5
+                //     },
+                //     showSymbol: false,
+                //     data: valueList0,
+                //     xAxisIndex: 9,
+                //     yAxisIndex: 9
+
+                // },
+                {
+                    name: 'Targettemp',
+                    type: 'line',
+                    showSymbol: false,
+                    data: pretemp0,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors0[0]
+                    },
+                    lineStyle: {
+                        color: colors0[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 9,
+                    yAxisIndex: 9
+                },//////////////////////////////////////////////
+                {
+                    name: 'Target+',
+                    type: 'line',
+                    showSymbol: false,
+                    data: maxtemp0,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors0[0]
+                    },
+                    lineStyle: {
+                        color: colors0[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 9,
+                    yAxisIndex: 9
+                },/////////////////////////////////////////////
+                {
+                    name: 'Target-',
+                    type: 'line',
+                    showSymbol: false,
+                    data: mintemp0,   //////////////thisseg==0
+                    itemStyle: {
+                        color: colors0[0]
+                    },
+                    lineStyle: {
+                        color: colors0[0],
+                        type: 'dashed',
+                        width: 0.5
+                    },
+                    xAxisIndex: 9,
+                    yAxisIndex: 9
+                },
+                // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                {
+                    name: titleName0[1],
+                    type: 'line',
+                    showSymbol: false,
+                    data: inheritCoeff0,
+                    itemStyle: {
+                        color: colors0[1]
+                    },
+                    lineStyle: {
+                        color: colors0[1],
+                        width: 1.5
+                    },
+                    xAxisIndex: 10,
+                    yAxisIndex: 10
+                },
+                {
+                    name: titleName0[2],
+                    type: 'line',
+                    showSymbol: false,
+                    data: lastoutValves0,
+                    itemStyle: {
+                        color: colors0[2]
+                    },
+                    lineStyle: {
+                        color: colors0[2],
+                        width: 1.5
+                    },
+                    xAxisIndex: 11,
+                    yAxisIndex: 11
+                },
+                 {
+                    name: titleName0[3],
+                    type: 'line',
+                    showSymbol: false,
+                    data: fbValveOpen0,
+                    itemStyle: {
+                        color: colors0[3]
+                    },
+                    lineStyle: {
+                        color: colors0[3],
+                        width: 1.5
+                    },
+                    xAxisIndex: 12,
+                    yAxisIndex: 12
+                }, 
+                {
+                    name: titleName0[4],
+                    type: 'line',
+                    showSymbol: false,
+                    data: speed0,
+                    itemStyle: {
+                        color: colors0[4]
+                    },
+                    lineStyle: {
+                        color: colors0[4],
+                        width: 1.5
+                    },
+                    xAxisIndex: 13,
+                    yAxisIndex: 13
+                },
+                 {
+                    name: 'preSpeed',
+                    type: 'line',
+                    showSymbol: false,
+                    data: actSpeed0,
+                    itemStyle: {
+                        color: colors0[14]
+                    },
+                    lineStyle: {
+                        color: colors0[14],
+                        width: 1.5,
+                        normal: {
+                            type: 'dot'
+                        }
+
+                    },
+                    xAxisIndex: 13,
+                    yAxisIndex: 13
+                },
+                {
+                    name: titleName0[5],
+                    type: 'line',
+                    showSymbol: false,
+                    data: tempInDistribute0,
+                    itemStyle: {
+                        color: colors0[5]
+                    },
+                    lineStyle: {
+                        color: colors0[5],
+                        width: 1.5
+                    },
+                    xAxisIndex: 14,
+                    yAxisIndex: 14
+                },
+                {
+                    name: titleName0[6],
+                    type: 'line',
+                    showSymbol: false,
+                    data: deltatemp0,
+                    itemStyle: {
+                        color: colors0[6]
+                    },
+                    lineStyle: {
+                        color: colors0[6],
+                        width: 1.5
+                    },
+                    xAxisIndex: 15,
+                    yAxisIndex: 15
+                },
+
+
+                {
+                    name: titleName0[7],
+                    type: 'line',
+                    showSymbol: false,
+                    data: fbkConTemp0,
+                    itemStyle: {
+                        color: colors0[8]
+                    },
+                    lineStyle: {
+                        color: colors0[8],
+                        width: 1.5
+                    },
+                    xAxisIndex: 16,
+                    yAxisIndex: 16
+                },
+                {
+                    name: titleName0[8],
+                    type: 'line',
+                    showSymbol: false,
+                    data: New_pidCalTemp0,
+                    itemStyle: {
+                        color: colors0[9]
+                    },
+                    lineStyle: {
+                        color: colors0[9],
+                        width: 1.5
+                    },
+                    xAxisIndex: 17,
+                    yAxisIndex: 17
+                },
+                {
+                    name: titleName0[9],
+                    type: 'line',
+                    showSymbol: false,
+                    data: Old_pidCalTemp0,
+                    itemStyle: {
+                        color: colors0[10]
+                    },
+                    lineStyle: {
+                        color: colors0[10],
+                        width: 1.5,
+                        normal: {
+                            type: 'dot'
+                        },
+                    },
+
+                    xAxisIndex: 17,
+                    yAxisIndex: 17
+                },
+
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+</head>
+
+</html>
